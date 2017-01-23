@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+</head>
+<body>
+	
+
+<div>
+	<ul>{% count = 0 %}
+	{% for repo in repo_info %}
+	
+		<li>{{ repo }}</li>
+		<p>Here are the branches of this repository</p>
+		<ul>
+		{% for branch in branch_info[count] %}
+			<li> {{ branch }}</li>			
+		{% endfor%}
+		</ul>
+		<p>Here are the commits made to this repository</p>
+		<ol>
+		{% for commit in commit_info[count] %}
+			<li> {{ commit }} </li>
+		{% endfor %}
+		</ol>
+		{% count = count + 1 %}
+	{% endfor %}
+	</ul>
+</div>
+
+</body>
+</html>
+
+
+
