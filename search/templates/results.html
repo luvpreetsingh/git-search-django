@@ -8,27 +8,27 @@
 	
 
 <div>
-	<ul>{% count = 0 %}
+	<ul>
 	{% for repo in repo_info %}
-	
-		<li>{{ repo }}</li>
+		{% set count = forloop.counter %}
+		<li>Repository Name --> {{ repo }} </li>
 		<p>Here are the branches of this repository</p>
 		<ul>
-		{% for branch in branch_info[count] %}
-			<li> {{ branch }}</li>			
-		{% endfor%}
+		{% for branch in branch_info.count %}
+			<li>Branch Name --> {{ branch }}</li>			
+		{% endfor %}
 		</ul>
 		<p>Here are the commits made to this repository</p>
 		<ol>
-		{% for commit in commit_info[count] %}
-			<li> {{ commit }} </li>
+		{% for commit in commit_info.count %}
+			<li>Commit Name --> {{ commit }}</li>
 		{% endfor %}
 		</ol>
-		{% count = count + 1 %}
+		
 	{% endfor %}
 	</ul>
 </div>
-
+<a href="{% url 'search:home' %}">Click here to search for another user</a>
 </body>
 </html>
 
