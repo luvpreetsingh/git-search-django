@@ -9,23 +9,24 @@
 
 <div>
 	<ul>
-	{% for repo in repo_info %}
-		{% with count=forloop.counter %}
-		<li>Repository Name --> {{ repo }} </li>
+	<h3>Number of repositories is {{ repo_no }}</h3>
+	{% for repo in user_info %}
+	<br/><br/>
+		<li>Repository Name --> {{ repo.name }} </li>
+		<li>Repository id --> {{ repo.id }} </li>
 		<p>Here are the branches of this repository</p>
 		<ul>
-		{% for branch in branch_info.count %}
-			<li>Branch Name --> {{ branch }}</li>			
+		{% for branch in repo.branches %}
+			<li>Branch Name --> {{ branch.name }}</li>			
 		{% endfor %}
 		</ul>
 		<p>Here are the commits made to this repository</p>
 		<ol>
-		{% for commit in commit_info.count %}
-			<li>Commit Name --> {{ commit }}</li>
+		{% for commit in repo.commits %}
+			<li>Commit Name --> {{ commit.message }}</li>
 		{% endfor %}
 		</ol>
-		{% endwith %}
-	{% endfor %}
+		{% endfor %}
 	</ul>
 </div>
 <a href="{% url 'search:home' %}">Click here to search for another user</a>
