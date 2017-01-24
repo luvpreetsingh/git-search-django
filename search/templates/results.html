@@ -10,7 +10,7 @@
 <div>
 	<ul>
 	{% for repo in repo_info %}
-		{% set count = forloop.counter %}
+		{% with count=forloop.counter %}
 		<li>Repository Name --> {{ repo }} </li>
 		<p>Here are the branches of this repository</p>
 		<ul>
@@ -24,7 +24,7 @@
 			<li>Commit Name --> {{ commit }}</li>
 		{% endfor %}
 		</ol>
-		
+		{% endwith %}
 	{% endfor %}
 	</ul>
 </div>
