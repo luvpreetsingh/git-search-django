@@ -45,7 +45,8 @@ def results(request, username):
 		repo_info.append(info)
 		branch_info.append(user_info[info][0])
 		commit_info.append(user_info[info][1])
-	context = {'repo_info' : repo_info, 'branch_info': branch_info, 'commit_info': commit_info}
+	count = 0
+	context = {'repo_info' : repo_info, 'branch_info': branch_info, 'commit_info': commit_info, 'count': count}
 	return render(request, 'results.html', context)
 
 
