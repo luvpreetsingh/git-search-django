@@ -38,15 +38,8 @@ def results(request, username):
 	user_url = url + username
 	user_info_r = requests.get(user_url)
 	user_info = get_repos(user_info_r)
-	repo_info = []
-	commit_info = []
-	branch_info = []
-	for info in user_info:
-		repo_info.append(info)
-		branch_info.append(user_info[info][0])
-		commit_info.append(user_info[info][1])
-	count = 0
-	context = {'repo_info' : repo_info, 'branch_info': branch_info, 'commit_info': commit_info, 'count': count}
+	repo_no = len(user_info)
+	context = {'user_info':user_info, 'repo_no':repo_no}
 	return render(request, 'results.html', context)
 
 
@@ -56,21 +49,26 @@ def get_repos(user_info_r):
 	repo_info_r = requests.get(repos_url)
 	repo_info = json.loads(repo_info_r.text)
 	print("Number of repositories --> " + str(len(repo_info)))
-	repo_dict = {}
+	print(repo_info)
 	repo_count = 0
+	repo_list = []
 	for repo in repo_info:
-		name = (repo['name'])
-		print("Repository name is " + name)
+		repo_dict = {}
+		repo_name = (repo['name'])
+		repo_id = repo['id']
+		repo_dict["id"] = repo_id
+		repo_dict["name"] = repo_name 
+		print("Repository name is " + repo_name)
 		branch_list = get_branches(repo)
 		commit_list = get_commits(repo)
-		final_list = []
-		final_list.append(branch_list)
-		final_list.append(commit_list)
-		repo_dict[name] = final_list
-		print("\n\n")
-	return repo_dict
+		repo_dict['commits'] = commit_list
+		repo_dict['branches'] = branch_list
+		repo_list.append(repo_dict)
+		print("\n")
+	return repo_list
 
 def get_branches(repo_json):
+	repo_name = repo_json['name']
 	branches_url = repo_json['branches_url']
 	branch_info_r = requests.get(branches_url[:-9])
 	branch_info = json.loads(branch_info_r.text)
@@ -78,9 +76,9 @@ def get_branches(repo_json):
 	branch_count = 1
 	branch_list = []
 	for branch in branch_info:
-		branch_list.append(branch['name'])
-		print(str(branch_count) + " - " + branch['name'])
-		branch_count += 1
+		branch_dict = {}
+		branch_dict['name'] = branch['name']
+		branch_list.append(branch_dict)
 	return branch_list
 
 def get_commits(repo_json):
@@ -91,7 +89,7 @@ def get_commits(repo_json):
 	commit_count = 1
 	commit_list = []
 	for commit in commit_info:
-		commit_list.append(commit['commit']['message'])
-		print(str(commit_count) + " - " + commit['commit']['message'])
-		commit_count += 1
+		commit_dict = {}
+		commit_dict['message'] = commit['commit']['message']
+		commit_list.append(commit_dict)
 	return commit_list
